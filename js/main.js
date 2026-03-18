@@ -1,0 +1,122 @@
+const AD_COUNT = 10;
+
+const TITLES = [
+  'Уютная квартирка в центре',
+  'Просторная студия',
+  'Светлая комната',
+  'Роскошный дворец',
+  'Небольшой домик',
+  'Квартира с видом на парк',
+  'Комната в общежитии',
+  'Дом с бассейном',
+  'Бунгало на пляже',
+  'Лофт в стиле индастриал'
+];
+
+const TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel'
+];
+
+const CHECKIN_TIMES = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const CHECKOUT_TIMES = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+const DESCRIPTIONS = [
+  'Отличное место для отдыха',
+  'Удобное расположение и развитая инфраструктура',
+  'Тихий район, идеально для семей с детьми',
+  'В шаговой доступности от метро',
+  'Свежий ремонт и новая мебель',
+  'Живописный вид из окна',
+  'Есть все необходимое для комфортного проживания',
+  'Подходит для проведения вечеринок',
+  'Можно с домашними животными',
+  'Идеально для командировок'
+];
+
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
+
+const LAT_MIN = 35.65000;
+const LAT_MAX = 35.70000;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
+
+const getRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+  return Math.floor(Math.random() * (upper - lower + 1) + lower);
+};
+
+const getRandomFloat = (min, max, decimals = 1) => {
+  const lower = Math.min(min, max);
+  const upper = Math.max(min, max);
+  return parseFloat((Math.random() * (upper - lower) + lower).toFixed(decimals));
+};
+
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+const getRandomArray = (elements) => {
+  const length = getRandomInteger(1, elements.length);
+  const shuffled = elements.slice().sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, length);
+};
+
+const createAd = (index) => {
+  const lat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+  const lng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
+
+  const avatarIndex = index + 1;
+  const avatarUrl = `img/avatars/user${avatarIndex < 10 ? '0' + avatarIndex : avatarIndex}.png`;
+
+  return {
+    author:  {
+      avatar: avatarUrl,
+    },
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${lat} ${lng}`,
+      price: getRandomInteger(1000, 100000),
+      type: getRandomArrayElement(TYPES),
+      rooms: getRandomInteger(1, 5),
+      guests: getRandomInteger(1, 10),
+      checkin: getRandomArrayElement(CHECKIN_TIMES),
+      checkout: getRandomArrayElement(CHECKOUT_TIMES),
+      features: getRandomArray(FEATURES),
+      description: getRandomArrayElement(DESCRIPTIONS),
+      photos: getRandomArray(PHOTOS),
+    },
+    location: {
+      lat,
+      lng
+    },
+  }
+};
+
+const ads = Array.from({length: AD_COUNT}, (_, i) => createAd(i));
+
+console.log(ads);
