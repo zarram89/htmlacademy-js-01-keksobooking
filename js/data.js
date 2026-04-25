@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomFloat, getRandomArray, getRandomArrayElement} from './util.js';
+import { getRandomInteger, getRandomFloat, getRandomArray, getRandomArrayElement } from './util.js';
 
 const AD_COUNT = 10;
 
@@ -72,16 +72,15 @@ const createAd = (index) => {
   const lat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
   const lng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
-  const avatarIndex = index + 1;
-  const avatarUrl = `img/avatars/user${avatarIndex < 10 ? '0' + avatarIndex : avatarIndex}.png`;
+  const avatarUrl = `img/avatars/user${String(index + 1).padStart(2, '0')}.png`;
 
   return {
-    author:  {
+    author: {
       avatar: avatarUrl,
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${lat} ${lng}`,
+      address: `${lat}, ${lng}`,
       price: getRandomInteger(1000, 100000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomInteger(1, 5),
@@ -96,9 +95,9 @@ const createAd = (index) => {
       lat,
       lng
     },
-  }
+  };
 };
 
-const createAds = () => Array.from({length: AD_COUNT}, (_, i) => createAd(i));
+const createAds = () => Array.from({ length: AD_COUNT }, (_, i) => createAd(i));
 
-export {createAds};
+export { createAds };
