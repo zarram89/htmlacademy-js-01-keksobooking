@@ -3,6 +3,7 @@ import { disableForm, enableForm } from './state.js';
 import { createValidator } from './validation.js';
 import { createCapacityRule } from './rules/rooms.js';
 import { createMinPriceRule, minPrices } from './rules/min-price.js';
+import { initSlider } from './slider.js';
 
 const initForm = () => {
   const el = createFormElements();
@@ -23,14 +24,16 @@ const initForm = () => {
 
   const validator = createValidator(el.form, config, rules);
 
-  // --- handlers
-
+  // submit
   const onSubmit = (evt) => {
     if (!validator.validate()) {
       evt.preventDefault();
     }
   };
 
+  el.form.addEventListener('submit', onSubmit);
+
+  // тип жилья → цена
   const onTypeChange = () => {
     const min = minPrices[el.type.value];
 
@@ -40,6 +43,7 @@ const initForm = () => {
     validator.validate();
   };
 
+  // время
   const onTimeInChange = () => {
     el.timeOut.value = el.timeIn.value;
   };
@@ -48,38 +52,33 @@ const initForm = () => {
     el.timeIn.value = el.timeOut.value;
   };
 
-  const onCapacityChange = () => {
-    validator.validate();
-  };
-
-  // --- events
-
-  el.form.addEventListener('submit', onSubmit);
-
   el.type.addEventListener('change', onTypeChange);
   el.timeIn.addEventListener('change', onTimeInChange);
   el.timeOut.addEventListener('change', onTimeOutChange);
 
-  el.roomNumber.addEventListener('change', onCapacityChange);
-  el.capacity.addEventListener('change', onCapacityChange);
+  // комнаты/гости
+  el.roomNumber.addEventListener('change', () => validator.validate());
+  el.capacity.addEventListener('change', () => validator.validate());
 
-  // 👉 важный момент — синхронизация при старте
+  // адрес
+  const setAddress = ({ lat, lng }) => {
+    el.address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  };
+
+  // слайдер
+  initSlider({
+    slider: el.slider,
+    input: el.price,
+    onUpdate: () => validator.validate()
+  });
+
+  // начальная инициализация
   onTypeChange();
 
   return {
     disable: () => disableForm(el),
     enable: () => enableForm(el),
-    validate: validator.validate,
-    destroy: () => {
-      el.form.removeEventListener('submit', onSubmit);
-
-      el.type.removeEventListener('change', onTypeChange);
-      el.timeIn.removeEventListener('change', onTimeInChange);
-      el.timeOut.removeEventListener('change', onTimeOutChange);
-
-      el.roomNumber.removeEventListener('change', onCapacityChange);
-      el.capacity.removeEventListener('change', onCapacityChange);
-    }
+    setAddress,
   };
 };
 
