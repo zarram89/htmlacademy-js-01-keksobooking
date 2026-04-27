@@ -1,5 +1,6 @@
 import { createAds } from './data.js';
 import { renderCard } from './cards/index.js';
+import { disablePage } from './form.js';
 
 const template = document.querySelector('#card');
 if (!template) {
@@ -9,7 +10,10 @@ const cardTemplate = template.content.querySelector('.popup');
 
 const mapCanvas = document.querySelector('#map-canvas');
 const ads = createAds();
+const [firstAd] = ads;
 
 if (ads.length > 0) {
-  mapCanvas.append(renderCard(ads[0], cardTemplate));
+  mapCanvas.append(renderCard(firstAd, cardTemplate));
 }
+
+disablePage();
