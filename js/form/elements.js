@@ -9,11 +9,17 @@ const createFormElements = () => {
   return {
     form,
     fieldsets: form.querySelectorAll('fieldset'),
+
     filters: mapFilters,
     filterSelects: mapFilters.querySelectorAll('select'),
     filterFieldsets: mapFilters.querySelectorAll('fieldset'),
+
     roomNumber: form.querySelector('#room_number'),
     capacity: form.querySelector('#capacity'),
+    type: form.querySelector('#type'),
+    price: form.querySelector('#price'),
+    timeIn: form.querySelector('#timein'),
+    timeOut: form.querySelector('#timeout'),
   };
 };
 

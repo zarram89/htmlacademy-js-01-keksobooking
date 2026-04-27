@@ -1,10 +1,11 @@
 import { createFormElements } from './elements.js';
 import { disableForm, enableForm } from './state.js';
 import { createValidator } from './validation.js';
-import { createCapacityRule } from './rules/capacity.js';
+import { createCapacityRule } from './rules/rooms.js';
+import { createMinPriceRule, minPrices } from './rules/min-price.js';
 
 const initForm = () => {
-  const elements = createFormElements();
+  const el = createFormElements();
 
   const config = {
     classTo: 'ad-form__element',
@@ -16,10 +17,13 @@ const initForm = () => {
   };
 
   const rules = [
-    createCapacityRule(elements.roomNumber, elements.capacity)
+    createCapacityRule(el.roomNumber, el.capacity),
+    createMinPriceRule(el.price, el.type),
   ];
 
-  const validator = createValidator(elements.form, config, rules);
+  const validator = createValidator(el.form, config, rules);
+
+  // --- handlers
 
   const onSubmit = (evt) => {
     if (!validator.validate()) {
@@ -27,21 +31,55 @@ const initForm = () => {
     }
   };
 
-  elements.roomNumber.addEventListener('change', () => {
-    validator.validate();
-  });
+  const onTypeChange = () => {
+    const min = minPrices[el.type.value];
 
-  elements.capacity.addEventListener('change', () => {
-    validator.validate();
-  });
+    el.price.min = min;
+    el.price.placeholder = min;
 
-  elements.form.addEventListener('submit', onSubmit);
+    validator.validate();
+  };
+
+  const onTimeInChange = () => {
+    el.timeOut.value = el.timeIn.value;
+  };
+
+  const onTimeOutChange = () => {
+    el.timeIn.value = el.timeOut.value;
+  };
+
+  const onCapacityChange = () => {
+    validator.validate();
+  };
+
+  // --- events
+
+  el.form.addEventListener('submit', onSubmit);
+
+  el.type.addEventListener('change', onTypeChange);
+  el.timeIn.addEventListener('change', onTimeInChange);
+  el.timeOut.addEventListener('change', onTimeOutChange);
+
+  el.roomNumber.addEventListener('change', onCapacityChange);
+  el.capacity.addEventListener('change', onCapacityChange);
+
+  // 👉 важный момент — синхронизация при старте
+  onTypeChange();
 
   return {
-    disable: () => disableForm(elements),
-    enable: () => enableForm(elements),
+    disable: () => disableForm(el),
+    enable: () => enableForm(el),
     validate: validator.validate,
-    destroy: () => elements.form.removeEventListener('submit', onSubmit)
+    destroy: () => {
+      el.form.removeEventListener('submit', onSubmit);
+
+      el.type.removeEventListener('change', onTypeChange);
+      el.timeIn.removeEventListener('change', onTimeInChange);
+      el.timeOut.removeEventListener('change', onTimeOutChange);
+
+      el.roomNumber.removeEventListener('change', onCapacityChange);
+      el.capacity.removeEventListener('change', onCapacityChange);
+    }
   };
 };
 

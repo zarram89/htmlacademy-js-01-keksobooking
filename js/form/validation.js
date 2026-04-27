@@ -11,7 +11,7 @@ const createValidator = (form, config, rules) => {
 
   const validate = () => pristine.validate();
 
-  return { pristine, validate };
+  return { validate };
 };
 
 export { createValidator };

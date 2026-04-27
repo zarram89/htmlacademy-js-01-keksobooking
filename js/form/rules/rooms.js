@@ -7,12 +7,17 @@ const roomsToGuests = {
 
 const createCapacityRule = (roomField, guestField) => ({
   element: guestField,
-  validate: () => roomsToGuests[roomField.value].includes(guestField.value),
+
+  validate: () => {
+    const allowed = roomsToGuests[roomField.value] || [];
+    return allowed.includes(guestField.value);
+  },
+
   message: () => {
     if (roomField.value === '100') {
       return 'Не для гостей';
     }
-    return 'Неверное количество гостей';
+    return `Для ${roomField.value} комнат выберите подходящее количество гостей`;
   }
 });
 
