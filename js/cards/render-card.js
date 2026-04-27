@@ -1,11 +1,15 @@
+import { createCardElements } from './elements.js';
 import { renderers } from './renderers.js';
 import { renderAvatar } from './render-avatar.js';
 
-const renderCard = ({ author, offer }, template, renderersList = renderers) => {
-  const cardElement = template.cloneNode(true);
+const buildCard = (template) => template.cloneNode(true);
 
-  renderersList.forEach((fn) => fn(cardElement, offer));
-  renderAvatar(cardElement, author);
+const renderCard = ({ author, offer }, template) => {
+  const cardElement = buildCard(template);
+  const elements = createCardElements(cardElement);
+
+  renderers.forEach((fn) => fn(elements, offer));
+  renderAvatar(elements, author);
 
   return cardElement;
 };

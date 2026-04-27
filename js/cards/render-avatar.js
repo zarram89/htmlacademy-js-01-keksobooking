@@ -1,9 +1,8 @@
-const renderAvatar = (container, { avatar }) => {
-  const avatarElement = container.querySelector('.popup__avatar');
+const renderAvatar = (elements, { avatar }) => {
   if (avatar) {
-    avatarElement.src = avatar;
+    elements.avatar.src = avatar;
   } else {
-    avatarElement.remove();
+    elements.avatar.remove();
   }
 };
 

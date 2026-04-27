@@ -1,22 +1,19 @@
 import { isDefined } from './utils.js';
 
-const renderCapacity = (container, { rooms, guests }) => {
-  const capacityElement = container.querySelector('.popup__text--capacity');
+const renderCapacity = (elements, { rooms, guests }) => {
   if (isDefined(rooms) && isDefined(guests)) {
-    capacityElement.textContent = `${rooms} комнаты для ${guests} гостей`;
+    elements.capacity.textContent = `${rooms} комнаты для ${guests} гостей`;
   } else {
-    capacityElement.remove();
+    elements.capacity.remove();
   }
 };
 
-const renderTime = (container, { checkin, checkout }) => {
-  const timeElement = container.querySelector('.popup__text--time');
+const renderTime = (elements, { checkin, checkout }) => {
   if (isDefined(checkin) && isDefined(checkout)) {
-    timeElement.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
+    elements.time.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
   } else {
-    timeElement.remove();
+    elements.time.remove();
   }
 };
 
 export { renderCapacity, renderTime };
-
