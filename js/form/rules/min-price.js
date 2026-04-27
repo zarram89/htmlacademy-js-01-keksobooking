@@ -8,12 +8,7 @@ const minPrices = {
 
 const createMinPriceRule = (priceField, typeField) => ({
   element: priceField,
-
-  validate: (value) => {
-    const min = minPrices[typeField.value];
-    return Number(value) >= min;
-  },
-
+  validate: (value) => Number(value) >= minPrices[typeField.value],
   message: () => `Минимальная цена ${minPrices[typeField.value]}`
 });
 
