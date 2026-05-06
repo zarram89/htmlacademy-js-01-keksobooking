@@ -18,4 +18,7 @@ const getRandomArray = (elements) => {
   return shuffled.slice(0, length);
 };
 
-export { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray };
+const isDefined = (value) => value !== null && value !== undefined;
+const isNotEmpty = (value) => isDefined(value) && value !== '';
+
+export { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, isDefined, isNotEmpty };

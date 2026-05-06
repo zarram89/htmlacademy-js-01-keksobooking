@@ -64,8 +64,7 @@ const createAd = (index) => {
   const lat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
   const lng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
-  const avatarIndex = index + 1;
-  const avatarUrl = `img/avatars/user${avatarIndex < 10 ? `0${avatarIndex}` : avatarIndex}.png`;
+  const avatarUrl = `img/avatars/user${String(index + 1).padStart(2, '0')}.png`;
 
   return {
     author: {
