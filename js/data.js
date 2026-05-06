@@ -1,3 +1,5 @@
+import { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray } from './util.js';
+
 const AD_COUNT = 10;
 const TITLES = [
   'Уютная квартирка в центре',
@@ -58,26 +60,6 @@ const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
 
-const getRandomInteger = (min, max) => {
-  const lower = Math.ceil(Math.min(min, max));
-  const upper = Math.floor(Math.max(min, max));
-  return Math.floor(Math.random() * (upper - lower + 1) + lower);
-};
-
-const getRandomFloat = (min, max, decimals = 1) => {
-  const lower = Math.min(min, max);
-  const upper = Math.max(min, max);
-  return parseFloat((Math.random() * (upper - lower) + lower).toFixed(decimals));
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-const getRandomArray = (elements) => {
-  const length = getRandomInteger(1, elements.length);
-  const shuffled = elements.slice().sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, length);
-};
-
 const createAd = (index) => {
   const lat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
   const lng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
@@ -111,5 +93,4 @@ const createAd = (index) => {
 
 const getAds = () => Array.from({ length: AD_COUNT }, (_, i) => createAd(i));
 
-// eslint-disable-next-line no-console
-console.log(getAds());
+export { getAds };
