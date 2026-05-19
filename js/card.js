@@ -36,6 +36,11 @@ const renderPrice = (container, { price }) => {
   fillElement(priceElement, price, (val) => `${val} ₽/ночь`);
 };
 
+function renderType(container, { type }) {
+  const typeElement = container.querySelector('.popup__type');
+  fillElement(typeElement, HOUSING_TYPES[type]);
+}
+
 const renderCapacity = (container, { rooms, guests }) => {
   const capacityElement = container.querySelector('.popup__text--capacity');
   if (isDefined(rooms) && isDefined(guests)) {
@@ -53,11 +58,6 @@ const renderTime = (container, { checkin, checkout }) => {
     timeElement.remove();
   }
 };
-
-function renderType(container, { type }) {
-  const typeElement = container.querySelector('.popup__type');
-  fillElement(typeElement, HOUSING_TYPES[type]);
-}
 
 const renderFeatures = (container, { features }) => {
   const featuresContainer = container.querySelector('.popup__features');
