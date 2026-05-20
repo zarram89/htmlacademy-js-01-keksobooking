@@ -2,14 +2,7 @@ import { enablePage } from './form.js';
 import { renderCard } from './card.js';
 import { setAddress } from './form.js';
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enablePage();
-  })
-  .setView({
-    lat: 35.6895,
-    lng: 139.6917,
-  }, 8);
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -65,12 +58,36 @@ const createMarker = (ad) => {
     .bindPopup(renderCard(ad));
 };
 
-const initMap = (ads) => {
-  ads.forEach((ad) => {
-    createMarker(ad);
-  });
-  // Set initial address
+const initMap = (onLoad) => {
+  map.on('load', () => {
+    enablePage();
+    onLoad();
+  })
+    .setView({
+      lat: 35.6895,
+      lng: 139.6917,
+    }, 10);
+
   setAddress(35.6895, 139.6917);
 };
 
-export { initMap };
+const renderMarkers = (ads) => {
+  ads.forEach((ad) => {
+    createMarker(ad);
+  });
+};
+
+const resetMap = () => {
+  mainPinMarker.setLatLng({
+    lat: 35.6895,
+    lng: 139.6917,
+  });
+  map.setView({
+    lat: 35.6895,
+    lng: 139.6917,
+  }, 10);
+  map.closePopup();
+  setAddress(35.6895, 139.6917);
+};
+
+export { initMap, renderMarkers, resetMap };
