@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 import { resetMap } from './map.js';
+import { resetAvatar } from './avatar.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -26,12 +27,12 @@ const roomsToGuests = {
   100: ['0']
 };
 
-const guestsToRooms = {
-  0: ['100'],
-  1: ['1', '2', '3'],
-  2: ['2', '3'],
-  3: ['3']
-};
+// const guestsToRooms = {
+//   0: ['100'],
+//   1: ['1', '2', '3'],
+//   2: ['2', '3'],
+//   3: ['3']
+// };
 
 const minPrices = {
   bungalow: 0,
@@ -145,6 +146,7 @@ const resetForm = () => {
   pristine.reset();
   sliderElement.noUiSlider.set(1000);
   resetMap();
+  resetAvatar();
 };
 
 adForm.addEventListener('submit', (evt) => {
