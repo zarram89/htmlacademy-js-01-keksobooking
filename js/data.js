@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray } from './util.js';
+import { getRandomPositiveInteger, getRandomFloat, getRandomArrayElement, getRandomArray } from './util.js';
 
 const AD_COUNT = 10;
 const TITLES = [
@@ -73,10 +73,10 @@ const createAd = (index) => {
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${lat}, ${lng}`,
-      price: getRandomInteger(1000, 100000),
+      price: getRandomPositiveInteger(1000, 100000),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomInteger(1, 5),
-      guests: getRandomInteger(1, 10),
+      rooms: getRandomPositiveInteger(1, 5),
+      guests: getRandomPositiveInteger(1, 10),
       checkin: getRandomArrayElement(CHECKIN_TIMES),
       checkout: getRandomArrayElement(CHECKOUT_TIMES),
       features: getRandomArray(FEATURES),
